@@ -40,11 +40,12 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
         newsRV.setLayoutManager(new LinearLayoutManager(this));
         newsRV.setAdapter(newsRvAdapter);
         categoryRV.setAdapter(categoryRVAdapter);
-        getCategoties();
-
+        getCategories();
+        getNews("All");
+        newsRvAdapter.notifyDataSetChanged();
     }
 
-    private void getCategoties(){
+    private void getCategories(){
         categoryRVModalArrayList.add(new CategoryRvModal("All",""));
         categoryRVModalArrayList.add(new CategoryRvModal("Technology","https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1420&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"));
         categoryRVModalArrayList.add(new CategoryRvModal("Science","https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNjaWVuY2V8ZW58MHx8MHx8fDA%3D"));
@@ -59,7 +60,7 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
         loadingPB.setVisibility(View.VISIBLE);
         articlesArrayList.clear();
         String categoryURL="https://newsapi.org/v2/everything?q="+category+"&apiKey=5dce79cf80e54b7096f71581f1663583";
-        String url="https://newsapi.org/v2/top-headlines?country=id&sortBy=publishedAt&apiKey=5dce79cf80e54b7096f71581f1663583";
+        String url="https://newsapi.org/v2/top-headlines?country=us&sortBy=publishedAt&apiKey=5dce79cf80e54b7096f71581f1663583";
         String BASE_URL="https://newsapi.org/";
         Retrofit retrofit= new Retrofit.Builder()
                 .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
@@ -73,18 +74,26 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
 
         call.enqueue(new Callback<NewsModal>() {
             @Override
+//            for passing the data
             public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
-
+                NewsModal newsModal=response.body();
+                loadingPB.setVisibility(View.GONE);
+                ArrayList<Articles>articles=newsModal.getArticles();
+                for (int i=0;i<articles.size();i++){
+                    articlesArrayList.add(new Articles(articles.get(i).getTitle(),articles.get(i).getDescription(),articles.get(i).getUrlToImage(),articles.get(i).getUrl(),articles.get(i).getContent()));
+                }
+                newsRvAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<NewsModal> call, Throwable t) {
-
+                Toast.makeText(MainApp.this,"Fail To Get News",Toast.LENGTH_SHORT).show();
             }
         });
     }
     @Override
     public void onCategoryClick(int position) {
-
+        String category=categoryRVModalArrayList.get(position).getCategory();
+        getNews(category);
     }
 }
