@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
-
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -12,48 +12,47 @@
         android:id="@+id/toolbar"
         android:background="@color/white">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150px"
-                android:layout_height="150px"
-                android:padding="4dp"
-                android:layout_marginEnd="15dp"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/nslogo3" />
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_below="@id/toolbar"
-        android:orientation="horizontal"
-        tools:listitem="@layout/category_rv_item"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
-        android:orientation="vertical"
-        tools:listitem="@layout/news_rv_item"
-        android:layout_below="@+id/recyclerView1"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        android:layout_height="wrap_content">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loading"
-        android:layout_marginTop="5dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:padding="4dp"
+            android:layout_marginEnd="15dp"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/nslogo3" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.appcompat.widget.Toolbar>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:layout_below="@id/toolbar"
+    tools:listitem="@layout/category_rv_item"
+    android:orientation="horizontal"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="12dp"
+    tools:listitem="@layout/news_rv_item"
+    android:layout_below="@+id/recyclerView1"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+<ProgressBar
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:id="@+id/loading"
+android:layout_marginTop="5dp"
+android:layout_centerInParent="true"
+android:visibility="gone" />
+
+    </RelativeLayout>
