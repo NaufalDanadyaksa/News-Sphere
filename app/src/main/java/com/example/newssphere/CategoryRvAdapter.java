@@ -17,12 +17,13 @@ import java.util.ArrayList;
 public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.ViewHolder> {
     private ArrayList<CategoryRvModal> categoryRVModals;
     private Context context;
-    private CategorClickInterface categorClickInterface;
+    private  CategoryClickInterface categoryClickInterface;
 
-    public CategoryRvAdapter(ArrayList<CategoryRvModal> categoryRVModals, Context context, CategorClickInterface categorClickInterface) {
+
+    public CategoryRvAdapter(ArrayList<CategoryRvModal> categoryRVModals, Context context, CategoryClickInterface categoryClickInterface) {
         this.categoryRVModals = categoryRVModals;
         this.context = context;
-        this.categorClickInterface = categorClickInterface;
+        this.categoryClickInterface = categoryClickInterface;
     }
 
     @NonNull
@@ -34,28 +35,26 @@ public class CategoryRvAdapter extends RecyclerView.Adapter<CategoryRvAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull CategoryRvAdapter.ViewHolder holder, int position) {
-        CategoryRvModal categoryRVModal = categoryRVModals.get(position);
-        holder.categoryTV.setText(categoryRVModal.getCategory());
-        Picasso.get().load(categoryRVModal.getCategoryImageUrl()).into(holder.categoryIV);
+        CategoryRvModal categoryRvModal=categoryRVModals.get(holder.getAdapterPosition());
+        holder.categoryTV.setText(categoryRvModal.getCategory());
+        Picasso.get().load(categoryRvModal.getCategoryImageUrl()).into(holder.categoryIV);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categorClickInterface.onCategoryClick(position);
+                categoryClickInterface.onCategoryClick(holder.getAdapterPosition());
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
         return categoryRVModals.size();
     }
-    public interface CategorClickInterface {
+    public interface CategoryClickInterface {
         void onCategoryClick(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         private TextView categoryTV;
         private ImageView categoryIV;
         public ViewHolder(@NonNull View itemView) {

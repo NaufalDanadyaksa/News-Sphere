@@ -17,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainApp extends AppCompatActivity implements CategoryRvAdapter.CategorClickInterface{
+public class MainApp extends AppCompatActivity implements CategoryRvAdapter.CategoryClickInterface{
 
 
     private RecyclerView newsRV,categoryRV;
@@ -30,22 +30,30 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
-        newsRV=findViewById(R.id.recyclerView1);
-        categoryRV=findViewById(R.id.recyclerView2);
-        loadingPB=findViewById(R.id.loading);
-        articlesArrayList=new ArrayList<>();
-        categoryRVModalArrayList=new ArrayList<>();
-        newsRvAdapter=new NewsRvAdapter(articlesArrayList, this);
-        categoryRVAdapter=new CategoryRvAdapter(categoryRVModalArrayList,this,this::onCategoryClick);
+
+        newsRV = findViewById(R.id.recyclerView1);
+        categoryRV = findViewById(R.id.recyclerView2);
+        loadingPB = findViewById(R.id.loading);
+
+        articlesArrayList = new ArrayList<>();
+        categoryRVModalArrayList = new ArrayList<>();
+
+        newsRvAdapter = new NewsRvAdapter(articlesArrayList, this);
+        categoryRVAdapter = new CategoryRvAdapter(categoryRVModalArrayList, this, this::onCategoryClick);
+
         newsRV.setLayoutManager(new LinearLayoutManager(this));
         newsRV.setAdapter(newsRvAdapter);
+
+        // Add this line to set the layout manager for the categoryRV
+        categoryRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         categoryRV.setAdapter(categoryRVAdapter);
+
         getCategories();
         getNews("All");
-        newsRvAdapter.notifyDataSetChanged();
     }
 
     private void getCategories(){
+        categoryRVModalArrayList.clear();
         categoryRVModalArrayList.add(new CategoryRvModal("All",""));
         categoryRVModalArrayList.add(new CategoryRvModal("Technology","https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1420&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"));
         categoryRVModalArrayList.add(new CategoryRvModal("Science","https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNjaWVuY2V8ZW58MHx8MHx8fDA%3D"));
@@ -76,6 +84,7 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
             @Override
 //            for passing the data
             public void onResponse(Call<NewsModal> call, Response<NewsModal> response) {
+
                 NewsModal newsModal=response.body();
                 loadingPB.setVisibility(View.GONE);
                 ArrayList<Articles>articles=newsModal.getArticles();
