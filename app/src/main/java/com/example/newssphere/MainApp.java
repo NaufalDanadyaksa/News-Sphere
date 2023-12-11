@@ -31,8 +31,8 @@ public class MainApp extends AppCompatActivity implements CategoryRvAdapter.Cate
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
 
-        newsRV = findViewById(R.id.recyclerView1);
-        categoryRV = findViewById(R.id.recyclerView2);
+        newsRV = findViewById(R.id.recyclerView2);
+        categoryRV = findViewById(R.id.recyclerView1);
         loadingPB = findViewById(R.id.loading);
 
         articlesArrayList = new ArrayList<>();
